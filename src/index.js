@@ -4,6 +4,7 @@ import { app } from "./app.js";
 import db from "./db/connectdb.js";
 const port = process.env.PORT || 4000;
 app.listen(process.env.PORT||port)
+
 dotenv.config();
 db().then((res)=>{
  console.log(res,'database is connect')
