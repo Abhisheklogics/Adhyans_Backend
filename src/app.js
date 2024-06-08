@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended:true,limit:"16kb"}))
 app.use(express.static("public"))
 
 app.use(cors({
-    origin:'https://frontend-al2m.onrender.com',
+    origin:'https://frontend-l645.onrender.com',
     credentials:true
 }
     
