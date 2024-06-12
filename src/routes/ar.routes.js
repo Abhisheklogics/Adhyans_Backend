@@ -30,7 +30,7 @@ router.route('/homeImagesSave').post(upload.fields([
     
     
 ]),homeImages)
-router.route('/homeData').get(getHomeImages)
+router.route('/').get(getHomeImages)
 router.route("/datasave").post(upload.fields([
     {
         name:'image1',
