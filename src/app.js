@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended:true,limit:"16kb"}))
 app.use(express.static("public"))
 
 app.use(cors({
-    origin:'https://magnificent-concha-e6bfce.netlify.app/',
+    origin:'https://dreamy-snickerdoodle-b6e8ee.netlify.app/',
     
     credentials:true
     
