@@ -7,7 +7,7 @@ app.listen(process.env.PORT||port)
 console.log(port)
 dotenv.config();
 db().then((res)=>{
- console.log(res,'database is connect')
+ console.log(res,'database is connecting')
 })
 .catch((err)=>{
     console.log(err,"database is not connect")
