@@ -9,7 +9,7 @@ app.use(express.urlencoded({extended:true,limit:"16kb"}))
 app.use(express.static("public"))
 
 app.use(cors({
-    origin:'http://localhost:4000/',
+    origin:process.env.Frontend_URL,
     
     credentials:true
     
