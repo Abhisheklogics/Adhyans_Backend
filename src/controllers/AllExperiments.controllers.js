@@ -5,7 +5,7 @@ import { Respberry } from "../models/resberipy.model.js"
 import { Esp } from "../models/esp.model.js"
 import {uploadCloudinary}  from "../utils/cloudinary.js"
  import { Home } from "../models/home.model.js"
-
+import { Alldata } from "../models/AllData.model.js"
 const homeImages=asyncHandler(async(req,res)=>{
         let image1=  await uploadCloudinary(req.files.image1[0].path)
         let image2 =await uploadCloudinary(req.files.image2[0].path)
@@ -22,8 +22,18 @@ const homeImages=asyncHandler(async(req,res)=>{
         return res.send(setHomeImages)
 })
 const getHomeImages=asyncHandler(async(req,res)=>{
-  let homeData= await Arduino.aggregate([
+ 
+  let homeData= await Alldata.aggregate([
     {
+      
+        $lookup:
+          {
+            from: "alldatas",
+            localField: AllArduinoData,
+            foreignField:  ExperimentName ,
+            as: AllArduinoData
+          }
+     ,
       $project:{
                  
         _id:0,
