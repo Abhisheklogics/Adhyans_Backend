@@ -27,3 +27,4 @@ const AlldataSchema= new mongoose.Schema({
     ],
     
 })
+export const Alldata = mongoose.model('Alldata',AlldataSchema)
