@@ -38,8 +38,7 @@ const getHomeImages=asyncHandler(async(req,res)=>{
         plot:1
 
       }
-    }
-  ])
+    }])
   const resData= await Respberry.aggregate([
     {
       $project:{
