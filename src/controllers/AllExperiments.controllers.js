@@ -87,6 +87,7 @@ const getHomeImages=asyncHandler(async(req,res)=>{
     }
 
    ])
+   console.log(allWebsiteData)
   return res.json(allWebsiteData)
 
 })
