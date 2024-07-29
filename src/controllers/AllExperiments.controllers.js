@@ -5,7 +5,7 @@ import { Respberry } from "../models/resberipy.model.js"
 import { Esp } from "../models/esp.model.js"
 import {uploadCloudinary}  from "../utils/cloudinary.js"
  import { Home } from "../models/home.model.js"
-import { Alldata } from "../models/AllData.model.js"
+
 const homeImages=asyncHandler(async(req,res)=>{
   if(!req.files.image1[0])
     {
