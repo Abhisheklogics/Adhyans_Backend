@@ -247,44 +247,50 @@ let ExperimentId=req.query.exId
   return res.json(exOne)
 })
 const searchArduinoData = asyncHandler(async (req, res) => {
-  let {search} = req.query;
- 
- 
+  let { search } = req.query;
 
-  
-        let agg=[
-          {
-            $search:{
-              
-              autocomplete:{
-               query:search,
-                path:"ExperimentName",
-                fuzzy:{
-                  maxEdits:2
-                }
-              }
+  if (!search) {
+    return res.status(400).json({ error: 'Search query is required.' });
+  }
+
+  try {
+    let agg = [
+      {
+        $search: {
+          index: 'default', // Add the name of your Atlas Search index if required
+          autocomplete: {
+            query: search,
+            path: 'ExperimentName',
+            fuzzy: {
+              maxEdits: 2
             }
-          },
-          {
-            $limit:5
-          },
-          {
-                $project:{
-                 
-                  _id:0,
-                  ExperimentName:1,
-                  ExperimentId:1,
-                  image1:1,
-                  poster:1,
-                  plot:1
-          
-                }
           }
-        ]
-     let response=   await Arduino.aggregate(agg)
-     console.log(response)
-     return res.send(response)
+        }
+      },
+      {
+        $limit: 5
+      },
+      {
+        $project: {
+          _id: 0,
+          ExperimentName: 1,
+          ExperimentId: 1,
+          image1: 1,
+          poster: 1,
+          plot: 1
+        }
+      }
+    ];
+
+    let response = await Alldata.aggregate(agg);
+    console.log(response);
+    return res.send(response);
+  } catch (error) {
+    console.error('Error performing search:', error);
+    return res.status(500).json({ error: 'An error occurred while searching.' });
+  }
 });
+
 const oneObject1 =asyncHandler(async(req,res)=>{
   
   
