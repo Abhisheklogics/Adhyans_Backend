@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const AlldataSchema= new mongoose.Schema({
     AllArduinoData:{
-        type:Array
+        type:Object
     },
     AllResData:{
-      type:Array 
+      type:Object 
     },
     AllEspData:{
-        type :Array
+        type :Object
     }
    
     
