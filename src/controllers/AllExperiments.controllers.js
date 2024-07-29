@@ -28,61 +28,10 @@ const homeImages=asyncHandler(async(req,res)=>{
 const getHomeImages = asyncHandler(async (req, res) => {
   try {
     // Fetch data from Arduino collection
-    const arduinodata = await Arduino.aggregate([
-      {
-        $project: {
-          _id: 0,
-          ExperimentName: 1,
-          ExperimentId: 1,
-          image1: 1,
-          poster: 1,
-          plot: 1
-        }
-      }
-    ]);
-
-    // Fetch data from Respberry collection
-    const resData = await Respberry.aggregate([
-      {
-        $project: {
-          _id: 0,
-          ExperimentName: 1,
-          ExperimentId: 1,
-          image1: 1,
-          poster: 1,
-          plot: 1
-        }
-      }
-    ]);
-
-    // Fetch data from Esp collection
-    const allEspData = await Esp.aggregate([
-      {
-        $project: {
-          _id: 0,
-          ExperimentName: 1,
-          ExperimentId: 1,
-          image1: 1,
-          poster: 1,
-          plot: 1
-        }
-      }
-    ]);
-
-    // Optionally, you can log these results to check the output
-    console.log('Arduino Data:', arduinodata);
-    console.log('Respberry Data:', resData);
-    console.log('ESP Data:', allEspData);
-
-    // Combine all data into one array
-    const combinedData = [...arduinodata, ...resData, ...allEspData];
+  
 
     // Insert combined data into Alldata collection
-    await Alldata.create({
-      AllArduinoData: arduinodata,
-      AllResData: resData,
-      AllEspData: allEspData
-    });
+    
 
     // Retrieve combined data from Alldata
     const allWebsiteData = await Alldata.aggregate([
