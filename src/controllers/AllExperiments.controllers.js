@@ -5,13 +5,17 @@ import { Respberry } from "../models/resberipy.model.js"
 import { Esp } from "../models/esp.model.js"
 import {uploadCloudinary}  from "../utils/cloudinary.js"
  import { Home } from "../models/home.model.js"
-
+import { Alldata } from "../models/AllData.model.js"
 const homeImages=asyncHandler(async(req,res)=>{
+  if(!req.files.image1[0])
+    {
+      throw console.error('files not availble');
+    }
         let image1=  await uploadCloudinary(req.files.image1[0].path)
         let image2 =await uploadCloudinary(req.files.image2[0].path)
         let image3=  await uploadCloudinary(req.files.image3[0].path)
         let image4 = await uploadCloudinary(req.files.image4[0].path)
-        let im3age5=  await uploadCloudinary(req.files.image5[0].path)
+        let image5=  await uploadCloudinary(req.files.image5[0].path)
      let setHomeImages=   await Home.create({
                   image1:image1.url,
                   image2:image2.url,
@@ -22,7 +26,7 @@ const homeImages=asyncHandler(async(req,res)=>{
         return res.send(setHomeImages)
 })
 const getHomeImages=asyncHandler(async(req,res)=>{
-  let homeData= await Arduino.aggregate([
+  let arduinodata= await Arduino.aggregate([
     {
       $project:{
                  
@@ -36,7 +40,55 @@ const getHomeImages=asyncHandler(async(req,res)=>{
       }
     }
   ])
-  return res.json(homeData)
+  const resData= await Respberry.aggregate([
+    {
+      $project:{
+                 
+        _id:0,
+        ExperimentName:1,
+        ExperimentId:1,
+        image1:1,
+        poster:1,
+        plot:1
+
+      }
+    }
+  ])
+ const allEspData =await Esp.aggregate([
+    {
+      $project:{
+                 
+        _id:0,
+        ExperimentName:1,
+        ExperimentId:1,
+        image1:1,
+        poster:1,
+        plot:1
+
+      }
+    }
+  ])
+  await Alldata.create({
+    AllArduinoData:arduinodata,
+    AllResData:resData,
+    AllEspData:allEspData
+   })
+ let allWebsiteData= await Alldata.aggregate([
+    {
+      $project:{
+                 
+        _id:0,
+        ExperimentName:1,
+        ExperimentId:1,
+        image1:1,
+        poster:1,
+        plot:1
+
+      }
+    }
+
+   ])
+  return res.json(allWebsiteData)
 
 })
   const datasave=asyncHandler(async(req,res)=>{
