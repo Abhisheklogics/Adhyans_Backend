@@ -281,7 +281,7 @@ const searchArduinoData = asyncHandler(async (req, res) => {
                 }
           }
         ]
-     let response=   await Alldata.aggregate(agg)
+     let response=   await Arduino.aggregate(agg)
      console.log(response)
      return res.send(response)
 });
