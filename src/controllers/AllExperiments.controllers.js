@@ -257,7 +257,7 @@ const searchArduinoData = asyncHandler(async (req, res) => {
     let agg = [
       {
         $search: {
-          index: 'default', // Add the name of your Atlas Search index if required
+          index: 'ExperimentName', // Add the name of your Atlas Search index if required
           autocomplete: {
             query: search,
             path: 'ExperimentName',
