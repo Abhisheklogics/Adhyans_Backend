@@ -25,72 +25,91 @@ const homeImages=asyncHandler(async(req,res)=>{
         })
         return res.send(setHomeImages)
 })
-const getHomeImages=asyncHandler(async(req,res)=>{
-  let arduinodata= await Arduino.aggregate([
-    {
-      $project:{
-                 
-        _id:0,
-        ExperimentName:1,
-        ExperimentId:1,
-        image1:1,
-        poster:1,
-        plot:1
-
+const getHomeImages = asyncHandler(async (req, res) => {
+  try {
+    // Fetch data from Arduino collection
+    const arduinodata = await Arduino.aggregate([
+      {
+        $project: {
+          _id: 0,
+          ExperimentName: 1,
+          ExperimentId: 1,
+          image1: 1,
+          poster: 1,
+          plot: 1
+        }
       }
-    }])
-  const resData= await Respberry.aggregate([
-    {
-      $project:{
-                 
-        _id:0,
-        ExperimentName:1,
-        ExperimentId:1,
-        image1:1,
-        poster:1,
-        plot:1
+    ]);
 
+    // Fetch data from Respberry collection
+    const resData = await Respberry.aggregate([
+      {
+        $project: {
+          _id: 0,
+          ExperimentName: 1,
+          ExperimentId: 1,
+          image1: 1,
+          poster: 1,
+          plot: 1
+        }
       }
-    }
-  ])
- const allEspData =await Esp.aggregate([
-    {
-      $project:{
-                 
-        _id:0,
-        ExperimentName:1,
-        ExperimentId:1,
-        image1:1,
-        poster:1,
-        plot:1
+    ]);
 
+    // Fetch data from Esp collection
+    const allEspData = await Esp.aggregate([
+      {
+        $project: {
+          _id: 0,
+          ExperimentName: 1,
+          ExperimentId: 1,
+          image1: 1,
+          poster: 1,
+          plot: 1
+        }
       }
-    }
-  ])
-   let allWebsiteData=await Alldata.create({
-    AllArduinoData:arduinodata,
-    AllResData:resData,
-    AllEspData:allEspData
-   })
-  allWebsiteData= await Alldata.aggregate([
-    {
-      $project:{
-                 
-        _id:0,
-        ExperimentName:1,
-        ExperimentId:1,
-        image1:1,
-        poster:1,
-        plot:1
+    ]);
 
+    // Optionally, you can log these results to check the output
+    console.log('Arduino Data:', arduinodata);
+    console.log('Respberry Data:', resData);
+    console.log('ESP Data:', allEspData);
+
+    // Combine all data into one array
+    const combinedData = [...arduinodata, ...resData, ...allEspData];
+
+    // Insert combined data into Alldata collection
+    await Alldata.create({
+      AllArduinoData: arduinodata,
+      AllResData: resData,
+      AllEspData: allEspData
+    });
+
+    // Retrieve combined data from Alldata
+    const allWebsiteData = await Alldata.aggregate([
+      {
+        $project: {
+          _id: 0,
+          ExperimentName: 1,
+          ExperimentId: 1,
+          image1: 1,
+          poster: 1,
+          plot: 1
+        }
       }
-    }
+    ]);
 
-   ])
-   console.log(allWebsiteData)
-  return res.json(allWebsiteData)
+    // Log the combined data from Alldata to check results
+    console.log('All Website Data:', allWebsiteData);
 
-})
+    // Return the combined data as response
+    return res.json(allWebsiteData);
+  } catch (error) {
+    // Handle any errors
+    console.error('Error fetching home images:', error);
+    return res.status(500).json({ error: 'An error occurred while fetching data.' });
+  }
+});
+
   const datasave=asyncHandler(async(req,res)=>{
    const { ExperimentId,ExperimentName,
     
