@@ -67,12 +67,12 @@ const getHomeImages=asyncHandler(async(req,res)=>{
       }
     }
   ])
-  await Alldata.create({
+   let allWebsiteData=await Alldata.create({
     AllArduinoData:arduinodata,
     AllResData:resData,
     AllEspData:allEspData
    })
- let allWebsiteData= await Alldata.aggregate([
+  allWebsiteData= await Alldata.aggregate([
     {
       $project:{
                  
@@ -87,7 +87,7 @@ const getHomeImages=asyncHandler(async(req,res)=>{
     }
 
    ])
-  return res.json(arduinodata)
+  return res.json(allWebsiteData)
 
 })
   const datasave=asyncHandler(async(req,res)=>{
