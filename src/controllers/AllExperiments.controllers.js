@@ -25,40 +25,24 @@ const homeImages=asyncHandler(async(req,res)=>{
         })
         return res.send(setHomeImages)
 })
-const getHomeImages = asyncHandler(async (req, res) => {
-  try {
-    // Fetch data from Arduino collection
-  
+const getHomeImages=asyncHandler(async(req,res)=>{
+  let arduinodata= await Arduino.aggregate([
+    {
+      $project:{
+                 
+        _id:0,
+        ExperimentName:1,
+        ExperimentId:1,
+        image1:1,
+        poster:1,
+        plot:1
 
-    // Insert combined data into Alldata collection
-    
-
-    // Retrieve combined data from Alldata
-    const allWebsiteData = await Alldata.aggregate([
-      {
-        $project: {
-          _id: 0,
-          ExperimentName: 1,
-          ExperimentId: 1,
-          image1: 1,
-          poster: 1,
-          plot: 1
-        }
       }
-    ]);
+    }])
+ 
+  return res.json(arduinodata)
 
-    // Log the combined data from Alldata to check results
-    console.log('All Website Data:', allWebsiteData);
-
-    // Return the combined data as response
-    return res.json(allWebsiteData);
-  } catch (error) {
-    // Handle any errors
-    console.error('Error fetching home images:', error);
-    return res.status(500).json({ error: 'An error occurred while fetching data.' });
-  }
-});
-
+})
   const datasave=asyncHandler(async(req,res)=>{
    const { ExperimentId,ExperimentName,
     
@@ -297,7 +281,7 @@ const searchArduinoData = asyncHandler(async (req, res) => {
                 }
           }
         ]
-     let response=   await Arduino.aggregate(agg)
+     let response=   await Alldata.aggregate(agg)
      console.log(response)
      return res.send(response)
 });
