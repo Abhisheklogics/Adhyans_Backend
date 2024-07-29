@@ -284,7 +284,7 @@ const searchArduinoData = asyncHandler(async (req, res) => {
 
     let response = await Alldata.aggregate(agg);
     console.log(response);
-    return res.send(response);
+    return res.send(response[0]);
   } catch (error) {
     console.error('Error performing search:', error);
     return res.status(500).json({ error: 'An error occurred while searching.' });
