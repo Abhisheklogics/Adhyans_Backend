@@ -284,7 +284,7 @@ const searchArduinoData = asyncHandler(async (req, res) => {
 
     let response1 = await Arduino.aggregate(agg);
     let response2=await Respberry.aggregate(agg)  
-     console.log(response);
+    
     return res.send(response1,response2);
   } catch (error) {
     console.error('Error performing search:', error);
